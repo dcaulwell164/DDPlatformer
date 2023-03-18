@@ -9,6 +9,9 @@ class Player:
         self.vel = 5
         self.color = (255, 0, 0)
         self.rect = (x,y,width,height)
+        self.isJumping = False
+        self.jump_height = 100
+        self.jump_count = self.jump_height
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, self.rect)
@@ -23,6 +26,9 @@ class Player:
             self.x += self.vel
 
         if keys[pygame.K_SPACE]:
+            self.isJumping = True
+
+        if self.isJumping:
             self.jump()
 
         self.update()
@@ -31,5 +37,13 @@ class Player:
         self.rect = (self.x, self.y, self.width, self.height)
 
     def jump(self):
-        print("jumping")
+        if self.jump_count >= -self.jump_height:
+            neg = 1
+            if self.jump_count < 0:
+                neg = -1
+            self.y -= (self.jump_count ** 2) * 0.5 * neg
+            self.jump_count -= 1
+        else:
+            self.is_jumping = False
+            self.jump_count = self.jump_height
         
