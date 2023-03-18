@@ -1,6 +1,7 @@
 import pygame
 from window import Window
 from player import Player
+import os
 
 class Game:
     
@@ -8,11 +9,19 @@ class Game:
 
     def __init__(self, width, height):
         pygame.init()
+        self.init_music()
         self.windowWidth = width
         self.WindowHeight = height
         self.window = Window(width, height, "My Platformer Game")
         self.clock = pygame.time.Clock()
-        self.player = Player(50, 300, 10, 10)
+        self.player = Player(width/2-50, height-150, 10, 10, self.window)
+
+    def init_music(self):
+        pygame.mixer.init()
+        music_file = os.path.join("./musiq.mp3")
+        pygame.mixer.music.load(music_file)
+        pygame.mixer.music.play()
+        pygame.mixer.music.set_volume(1)
 
     def redrawWindow(self):
         self.window.fill()

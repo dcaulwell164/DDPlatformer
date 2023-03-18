@@ -16,10 +16,10 @@ class Window:
 
     def fill(self):
         self.screen.fill(self.WHITE)
-        self.drawMap()
+        # self.drawMap()
 
     def drawMap(self):
-        rect = (0,310, self.width, self.height-310)
+        rect = (0,350, self.width, self.height-310)
         pygame.draw.rect(self.screen, (0,255, 0), rect)
         
     
