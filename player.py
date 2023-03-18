@@ -10,6 +10,10 @@ class Player:
         self.color = (255, 0, 0)
         self.rect = (x,y,width,height)
         self.isJumping = False
+        self.isFalling = False
+        self.initialY = y
+        self.jumpVel = 10
+        self.fallVel = 5
         self.jump_height = 100
         self.jump_count = self.jump_height
 
@@ -25,11 +29,12 @@ class Player:
         if keys[pygame.K_RIGHT]:
             self.x += self.vel
 
-        if keys[pygame.K_SPACE]:
-            self.isJumping = True
-
         if self.isJumping:
             self.jump()
+
+        if keys[pygame.K_SPACE]:
+            if not self.isJumping:
+                self.isJumping = True
 
         self.update()
 
@@ -37,13 +42,21 @@ class Player:
         self.rect = (self.x, self.y, self.width, self.height)
 
     def jump(self):
-        if self.jump_count >= -self.jump_height:
-            neg = 1
-            if self.jump_count < 0:
-                neg = -1
-            self.y -= (self.jump_count ** 2) * 0.5 * neg
-            self.jump_count -= 1
-        else:
-            self.is_jumping = False
-            self.jump_count = self.jump_height
+        if self.y != (self.initialY - self.jump_height) and not self.isFalling:
+            self.y -= self.jumpVel
+        
+        if self.y > self.initialY:
+            self.y = self.initialY
+            self.isJumping = False
+            self.isFalling = False
+            return
+
+        if self.y == (self.initialY - self.jump_height):
+            self.isFalling = True
+        
+        if self.isFalling:
+            self.y += self.fallVel
+
+
+        
         
